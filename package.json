@@ -1,0 +1,11 @@
+{
+  "name": "hi-roy-api",
+  "version": "1.0.0",
+  "description": "API for Saying Hi Roy",
+  "author": "Josh Pollock",
+  "license": "GPLv2+",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4"
+  }
+}
