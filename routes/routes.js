@@ -1,7 +1,10 @@
 
 var appRouter = function(app) {
     app.get("/hi", function(req, res) {
-        return res.send({"status": "success", "message": "Hi Roy"});
+        res.setHeader('hi', 'roy');
+        res.setHeader('content-type', 'text/json');
+        res.status(200);
+        return res.send({message: "Hi Roy"});
     });
 };
 
