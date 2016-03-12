@@ -11,5 +11,11 @@ Have you said "Hi Roy" today? Join the club at [http://hiroy.club](http://hiroy.
 * `cd` to this
 * `npm install` this
 * `node app.js` to run this
-* Make GET request to `http://localhost:3000/hi`
+
+### Routes
+ 
+* GET `http://localhost:3000/hi`
+    Returns "Hi Roy"
+* GET `http://localhost:3000/hi/:someone`
+    Returns "Hi {someone}" if someone is allowed. Else "Hi Roy"
 
