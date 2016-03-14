@@ -14,8 +14,8 @@ Have you said "Hi Roy" today? Join the club at [http://hiroy.club](http://hiroy.
 
 ### Routes
  
-* GET `http://localhost:3000/hi`
+* GET `http://localhost:9000/hi`
     Returns "Hi Roy"
-* GET `http://localhost:3000/hi/:someone`
+* GET `http://localhost:9000/hi/:someone`
     Returns "Hi {someone}" if someone is allowed. Else "Hi Roy"
 
