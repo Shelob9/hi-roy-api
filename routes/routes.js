@@ -1,7 +1,7 @@
 
 var appRouter = function(app) {
     app.get("/hi", function(req, res) {
-        res.setHeader('content-type', 'text/json');
+        res.setHeader('Content-Type', 'application/json');
         res.setHeader('hi', 'roy');
         res.setHeader('Link', 'http://hiroy.club');
         res.status(200);
