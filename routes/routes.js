@@ -35,7 +35,7 @@ var appRouter = function(app) {
         someone = someone.charAt(0).toUpperCase() + someone.slice(1);
         var message = "Hi " + someone;
 
-        res.setHeader('Content-Type', 'application/json');
+        res.setHeader('Content-Type', 'text/json');
         res.setHeader('hi', 'roy');
         res.setHeader('Link', 'http://hiroy.club');
         res.status(200);
