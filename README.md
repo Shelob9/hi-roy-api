@@ -3,19 +3,15 @@ Hi Roy API
 
 A RESTful API server for saying "Hi Roy"
 
-Have you said "Hi Roy" today? Join the club at [http://hiroy.club](http://hiroy.club)
+Have you said "Hi Roy" today? Join the club at [https://hiroy.club](https://hiroy.club).
 
-### Making it work
-* Set up Node & NPM
+## Making it work
 * `git clone` this repo
-* `cd` to this
-* `npm install` this
-* `node app.js` to run this
+* Place the code on a localhost environment or server.
 
-### Routes
- 
-* GET `http://localhost:9000/hi`
+## Routes
+* GET `http://localhost/hi`
     Returns "Hi Roy"
-* GET `http://localhost:9000/hi/:someone`
-    Returns "Hi {someone}" if someone is allowed. Else "Hi Roy"
+* GET `http://localhost/hi/{someone}`
+    Returns "Hi {someone}" if name is valid. Else "Hi Roy"
 
