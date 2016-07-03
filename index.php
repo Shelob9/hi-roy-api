@@ -16,16 +16,16 @@ if ( preg_match( '/^audio\/?/i', $request ) ) {
 	// Define the available audio files
 	$audio_files = array(
 		'carl'		=> 'hi-roy-carl.mp3',
-		'chris'		=> 'hi-roy-chris.m4a',
+		'chris'		=> 'hi-roy-chris.mp3',
 		'curtiss'	=> 'hi-roy-curtiss.mp3',
-		'kate'		=> 'hi-roy-kate.m4a',
+		'kate'		=> 'hi-roy-kate.mp3',
 		'michal1'	=> 'hi-roy-mb-1.mp3',
 		'michal2'	=> 'hi-roy-mb-2.mp3',
 		'michal3'	=> 'hi-roy-mb-3.mp3',
 		'michal4'	=> 'hi-roy-mb-4.mp3',
 		'michal5'	=> 'hi-roy-mb-5.mp3',
-		'shawn'		=> 'hi-roy-shawn.mp4',
-		'shelly'	=> 'hi-roy-shelly.m4a',
+		'shawn'		=> 'hi-roy-shawn.mp3',
+		'shelly'	=> 'hi-roy-shelly.mp3',
 	);
 	
 	// Define the audio file
