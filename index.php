@@ -11,7 +11,7 @@ header( 'Link: https://hiroy.club' );
 header( 'Hi: Roy' );
 
 // Are we looking for audio?
-if ( preg_match( '/^audio\/hi\/?/i', $request ) ) {
+if ( preg_match( '/^audio\/?/i', $request ) ) {
 	
 	// Define the default audio file
 	$audio_file = 'hi-roy-carl.mp3';
