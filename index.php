@@ -13,63 +13,71 @@ header( 'Hi: Roy' );
 // Are we looking for audio?
 if ( preg_match( '/^audio\/?/i', $request ) ) {
 	
-	// Define the default audio file
-	$audio_file = 'hi-roy-carl.mp3';
+	// Define the available audio files
+	$audio_files = array(
+		'carl'		=> 'hi-roy-carl.mp3',
+		'chris'		=> 'hi-roy-chris.m4a',
+		'curtiss'	=> 'hi-roy-curtiss.mp3',
+		'kate'		=> 'hi-roy-kate.m4a',
+		'michal1'	=> 'hi-roy-mb-1.mp3',
+		'michal2'	=> 'hi-roy-mb-2.mp3',
+		'michal3'	=> 'hi-roy-mb-3.mp3',
+		'michal4'	=> 'hi-roy-mb-4.mp3',
+		'michal5'	=> 'hi-roy-mb-5.mp3',
+		'shawn'		=> 'hi-roy-shawn.mp4',
+		'shelly'	=> 'hi-roy-shelly.m4a',
+	);
+	
+	// Define the audio file
+	$audio_file = '';
 	
 	// Did the user define who "from"?
-	$from = ! empty( $_REQUEST['from'] ) ? $_REQUEST['from'] : '';
+	$from = ! empty( $_REQUEST['from'] ) ? strtolower( $_REQUEST['from'] ) : '';
 	if ( ! empty( $from ) ) {
 		switch( $from ) {
 			
-			case 'chris':
-				$audio_file = 'hi-roy-chris-f.m4a';
-				break;
-				
-			case 'curtiss':
-				$audio_file = 'hi-roy-curtiss.mp3';
-				break;
-			
-			case 'kate':
-				$audio_file = 'hi-roy-kate.m4a';
-				break;
-				
 			// Michael has 5 audio files so pick one at random
 			case 'michal':
-				$audio_file = 'hi-roy-mb-' . rand( 1, 5 ) . '.mp3';
+				$rand_index = rand( 1, 5 );
+				if ( ! empty( $audio_files[ "michal{$rand_index}" ] ) ) {
+					$audio_file = $audio_files[ "michal{$rand_index}" ];
+				}
 				break;
-				
-			case 'shawn':
-				$audio_file = 'hi-roy-shawn.mp4';
-				break;
-				
-			case 'shelly':
-				$audio_file = 'hi-roy-shelly.m4a';
-				break;
-				
-			// Carl is the default
-			case 'carl':
+			
 			default:
-				$audio_file = 'hi-roy-carl.mp3';
+			
+				// Select the "from" audio file
+				if ( ! empty( $audio_files[ $_REQUEST['from'] ] ) ) {
+					$audio_file = $audio_files[ $_REQUEST['from'] ];
+				}
 				break;
 			
 		}
 	}
 	
+	// If no audio file, pick one at random
+	if ( empty( $audio_file ) ) {
+		$audio_file = $audio_files[ array_rand( $audio_files ) ];		
+	}
+	
+	// If still empty, Hi Carl
+	if ( empty( $audio_file ) ) {
+		$audio_file = 'hi-roy-carl.mp3';
+	}
+	
 	// Get the audio file
-	if ( ! empty( $audio_file ) ) {
-		$audio_file_path = "audio/{$audio_file}";
-		if ( file_exists( $audio_file_path ) ) {
+	$audio_file_path = "audio/{$audio_file}";
+	if ( file_exists( $audio_file_path ) ) {
+	
+		// Set the headers
+		header( 'Content-Type: audio/mpeg' );
+		header( 'Content-Disposition: inline;filename="' . $audio_file . '"' );
+		header( 'Content-length: ' . filesize( $audio_file_path ) );
+	    //header( 'Cache-Control: no-cache' );
+	    header( 'Content-Transfer-Encoding: chunked' );
+	    readfile( $audio_file_path );
+	    exit;
 		
-			// Set the headers
-			header( 'Content-Type: audio/mpeg' );
-			header( 'Content-Disposition: inline;filename="' . $audio_file . '"' );
-			header( 'Content-length: ' . filesize( $audio_file_path ) );
-		    //header( 'Cache-Control: no-cache' );
-		    header( 'Content-Transfer-Encoding: chunked' );
-		    readfile( $audio_file_path );
-		    exit;
-			
-		}
 	}
 	
 	header( 'HTTP/1.0 404 Not Found' );
