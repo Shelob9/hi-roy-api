@@ -37,10 +37,19 @@ if ( preg_match( '/^audio\/?/i', $request ) ) {
 		switch( $from ) {
 			
 			// Michael has 5 audio files so pick one at random
-			case 'michal':
-				$rand_index = rand( 1, 5 );
-				if ( ! empty( $audio_files[ "michal{$rand_index}" ] ) ) {
-					$audio_file = $audio_files[ "michal{$rand_index}" ];
+			case preg_match( '/michal([1-5]{1})?/i', $from, $michal ) ? true : false:
+			
+				// If we're after a specific Michal file
+				if ( ! empty( $michal[1] ) && ! empty( $audio_files[ 'michal' . $michal[1] ] ) ) {
+					$audio_file = $audio_files[ 'michal' . $michal[1] ];
+				}
+				
+				// Get a random Michal file
+				if ( ! $audio_file ) {
+					$rand_index = rand( 1, 5 );
+					if ( ! empty( $audio_files[ "michal{$rand_index}" ] ) ) {
+						$audio_file = $audio_files[ "michal{$rand_index}" ];
+					}
 				}
 				break;
 			
