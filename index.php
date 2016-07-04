@@ -15,17 +15,53 @@ if ( preg_match( '/^audio\/?/i', $request ) ) {
 	
 	// Define the available audio files
 	$audio_files = array(
-		'carl'		=> 'hi-roy-carl.mp3',
-		'chris'		=> 'hi-roy-chris.mp3',
-		'curtiss'	=> 'hi-roy-curtiss.mp3',
-		'kate'		=> 'hi-roy-kate.mp3',
-		'michal1'	=> 'hi-roy-mb-1.mp3',
-		'michal2'	=> 'hi-roy-mb-2.mp3',
-		'michal3'	=> 'hi-roy-mb-3.mp3',
-		'michal4'	=> 'hi-roy-mb-4.mp3',
-		'michal5'	=> 'hi-roy-mb-5.mp3',
-		'shawn'		=> 'hi-roy-shawn.mp3',
-		'shelly'	=> 'hi-roy-shelly.mp3',
+		'carl'		=> array(
+			'audio' => array(
+				'hi-roy-carl.mp3',
+			),
+		),
+		'chris'		=> array(
+			'audio' => array(
+				'hi-roy-chris.mp3',
+			),
+		),
+		'curtiss'	=> array(
+			'audio' => array(
+				'hi-roy-curtiss.mp3',
+			),
+		),
+		'kate'		=> array(
+			'audio' => array(
+				'hi-roy-kate.mp3',
+			),
+		),
+		'meagan'	=> array(
+			'audio' => array(
+				'hi-roy-meagan-1.mp3',
+				'hi-roy-meagan-2.mp3',
+				'hi-roy-meagan-3.mp3',
+				'hi-roy-meagan-4.mp3',
+			),
+		),
+		'michal'	=> array(
+			'audio' => array(
+				'hi-roy-mb-1.mp3',
+				'hi-roy-mb-2.mp3',
+				'hi-roy-mb-3.mp3',
+				'hi-roy-mb-4.mp3',
+				'hi-roy-mb-5.mp3',
+			),
+		),
+		'shawn'		=> array(
+			'audio' => array(
+				'hi-roy-shawn.mp3',
+			),
+		),
+		'shelly'	=> array(
+			'audio' => array(
+				'hi-roy-shelly.mp3',
+			),
+		),
 	);
 	
 	// Define the audio file
@@ -33,44 +69,96 @@ if ( preg_match( '/^audio\/?/i', $request ) ) {
 	
 	// Did the user define who "from"?
 	$from = ! empty( $_REQUEST['from'] ) ? strtolower( $_REQUEST['from'] ) : '';
-	if ( ! empty( $from ) ) {
-		switch( $from ) {
+	
+	// Find the name and optional index
+	preg_match( '/^([^0-9]+)([0-9]*)?/i', $from, $from_matches );
+	
+	// Get the "from" name
+	$from_name = ! empty( $from_matches[1] ) ? $from_matches[1] : '';
+	
+	// Get the optional "from" index
+	$from_index = ! empty( $from_matches[2] ) ? $from_matches[2] : '';
+	
+	// If we have a "from" name
+	if ( ! empty( $from_name ) ) {
+		
+		// Convert "from" Twitter handle to handle
+		switch ( $from_name ) {
 			
-			// Michael has 5 audio files so pick one at random
-			case preg_match( '/michal([1-5]{1})?/i', $from, $michal ) ? true : false:
-			
-				// If we're after a specific Michal file
-				if ( ! empty( $michal[1] ) && ! empty( $audio_files[ 'michal' . $michal[1] ] ) ) {
-					$audio_file = $audio_files[ 'michal' . $michal[1] ];
-				}
-				
-				// Get a random Michal file
-				if ( ! $audio_file ) {
-					$rand_index = rand( 1, 5 );
-					if ( ! empty( $audio_files[ "michal{$rand_index}" ] ) ) {
-						$audio_file = $audio_files[ "michal{$rand_index}" ];
-					}
-				}
+			case 'twigpress':
+				$from_name = 'carl';
 				break;
-			
-			default:
-			
-				// Select the "from" audio file
-				if ( ! empty( $audio_files[ $_REQUEST['from'] ] ) ) {
-					$audio_file = $audio_files[ $_REQUEST['from'] ];
-				}
+				
+			case 'chrisflanny':
+				$from_name = 'chris';
+				break;
+				
+			case 'cgrymala':
+				$from_name = 'curtiss';
+				break;
+				
+			case '2fishweb':
+				$from_name = 'kate';
+				break;
+				
+			case 'mhanes':
+				$from_name = 'meagan';
+				break;
+				
+			case 'isotrope':
+				$from_name = 'michal';
+				break;
+				
+			case 'shawnhooper':
+				$from_name = 'shawn';
+				break;
+				
+			case 'spinbird':
+				$from_name = 'shelly';
 				break;
 			
 		}
+		
+		// If this person has audio files...
+		if ( ! empty( $audio_files[ $from_name ]['audio'] ) ) {
+			
+			// If we have a defined index and the index exists...
+			if ( $from_index > 0 ) {
+				
+				// Subtract 1 to align with array index
+				$from_index--;
+				
+				// Get the specified file
+				if ( ! empty( $audio_files[ $from_name ]['audio'][ $from_index ] ) ) {
+					$audio_file = $audio_files[ $from_name ]['audio'][ $from_index ];
+				}
+				
+			}
+			
+			// Otherwise pick a file at random
+			if ( ! $audio_file ) {
+				$audio_file = $audio_files[ $from_name ]['audio'][ array_rand( $audio_files[ $from_name ]['audio'] ) ];
+			}
+			
+		}
+		
 	}
 	
 	// If no audio file, pick one at random
-	if ( empty( $audio_file ) ) {
-		$audio_file = $audio_files[ array_rand( $audio_files ) ];		
+	if ( ! $audio_file ) {
+		
+		// Get random person
+		$random_person = array_rand( $audio_files );
+		
+		// Pick a random audio file from that person
+		if ( ! empty( $audio_files[ $random_person ]['audio'] ) ) {
+			$audio_file = $audio_files[ $random_person ]['audio'][ array_rand( $audio_files[ $random_person ]['audio'] ) ];
+		}
+		
 	}
 	
 	// If still empty, Hi Carl
-	if ( empty( $audio_file ) ) {
+	if ( ! $audio_file ) {
 		$audio_file = 'hi-roy-carl.mp3';
 	}
 	
